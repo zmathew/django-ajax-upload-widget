@@ -15,6 +15,8 @@ Features
 Usage
 -----
 
+Refer to the `example` app included in the package for a working example.
+
 ### Server Side
 
 In your form, use the `AjaxClearableFileInput` on your `FileField` or `ImageField`.

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <link href="{{ STATIC_URL }}ajax_upload/css/ajax-upload-widget.css" rel="stylesheet" type="text/css"/>
+
+    <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script src="{{ STATIC_URL }}ajax_upload/js/jquery.iframe-transport.js"></script>
+    <script src="{{ STATIC_URL }}ajax_upload/js/ajax-upload-widget.js"></script>
+
+    <form action="" method="POST" enctype="multipart/form-data">
+        <h1>{% if product %}Editing Product: {{ product.name }}{% else %}Add Product{% endif %}</h1>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save"/>
+    </form>
+        <script>
+            $(function() {
+                AjaxUploadWidget.autoDiscover();
+            });
+        </script>
+</html>
