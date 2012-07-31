@@ -90,8 +90,8 @@ Dependencies
 * jQuery Iframe Transport plugin (included in this package)
 
 
-Installation
-------------
+App Installation
+----------------
 
 1. Add `ajax_upload` to your `INSTALLED_APPS` setting.
 
@@ -102,8 +102,16 @@ Installation
             (r'^ajax-upload/', include('ajax_upload.urls')),
         )
 
-1. Run the tests to verify it is working.
-
-        ./manage.py test ajax_upload
-
 1. That's it (don't forget include the Javascript as mentioned above).
+
+
+Running the Tests
+-----------------
+
+    ./manage.py test ajax_upload
+
+
+License
+-------
+
+This app is licensed under the BSD license. See the LICENSE file for details.
