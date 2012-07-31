@@ -1,0 +1,21 @@
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.utils import simplejson
+
+from ..tests.forms import TestForm
+
+
+def test_view(request):
+    form = TestForm(data=request.POST, files=request.FILES)
+    if form.is_valid():
+        data = {
+            'uploaded_file_name': str(form.cleaned_data['my_file']),
+            'uploaded_image_name': str(form.cleaned_data['my_image'])
+        }
+        return HttpResponse(
+            simplejson.dumps(data), mimetype='application/json'
+        )
+    else:
+        return HttpResponseBadRequest(
+            simplejson.dumps({'errors': form.errors}),
+            mimetype='application/json'
+        )
