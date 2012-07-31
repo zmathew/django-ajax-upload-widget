@@ -1,4 +1,4 @@
-django-ajax-upload-widget
+Django Ajax Upload Widget
 =========================
 
 Provides AJAX file upload functionality for FileFields and ImageFields with a simple widget replacement in the form.
