@@ -15,8 +15,6 @@ def upload(request):
         data = {
             'path': uploaded_file.file.url,
         }
-        return HttpResponse(simplejson.dumps(data), mimetype='text/plain')
+        return HttpResponse(simplejson.dumps(data))
     else:
-        return HttpResponseBadRequest(simplejson.dumps({'errors': form.errors}),
-            mimetype='text/plain'
-        )
+        return HttpResponseBadRequest(simplejson.dumps({'errors': form.errors}))
