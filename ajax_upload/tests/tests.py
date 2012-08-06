@@ -140,34 +140,3 @@ class AjaxFileInputTests(UploaderTestHelper, TestHelper, TestCase):
         self.assertTrue('errors' not in parsed)
         self.assertTrue('uploaded_file_name' in parsed)
         self.assertTrue('uploaded_image_name' in parsed)
-
-
-class CleanupCommandTests(UploaderTestHelper, TestHelper, TestCase):
-
-    @override_settings(UPLOADER_DELETE_AFTER=0)
-    def test_cleanup_command_deletes_expired_files_based_on_setting(self):
-        post_data = {
-            'file': open(TEST_FILEPATH)
-        }
-        response = self.client.post(reverse('ajax-upload'), post_data)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(UploadedFile.objects.count(), 1)
-        file_path = UploadedFile.objects.all()[0].file.path
-        self.assertTrue(os.path.exists(file_path))
-        call_command('cleanup_uploaded')
-        self.assertEqual(UploadedFile.objects.count(), 0)
-        self.assertTrue(not os.path.exists(file_path))
-
-    @override_settings(UPLOADER_DELETE_AFTER=60)
-    def test_cleanup_command_does_not_delete_unexpired_files(self):
-        post_data = {
-            'file': open(TEST_FILEPATH)
-        }
-        response = self.client.post(reverse('ajax-upload'), post_data)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(UploadedFile.objects.count(), 1)
-        file_path = UploadedFile.objects.all()[0].file.path
-        self.assertTrue(os.path.exists(file_path))
-        call_command('cleanup_uploaded')
-        self.assertEqual(UploadedFile.objects.count(), 1)
-        self.assertTrue(os.path.exists(file_path))
