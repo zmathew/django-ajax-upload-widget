@@ -29,12 +29,6 @@ class UploaderTestHelper(object):
         return UploadedFile.objects.create(**defaults)
 
 
-class Tests(UploaderTestHelper, TestCase):
-
-    def test_admin_pages_load(self):
-        self.assertAdminPagesLoad(self.create_uploaded_file())
-
-
 class AjaxUploadTests(UploaderTestHelper, TestCase):
 
     def test_upload_file_submission_saves_file_with_different_name_and_returns_json(self):
