@@ -1,14 +1,11 @@
 import os
 
 from django.conf import settings
-from django.core.management import call_command
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from django.test.utils import override_settings
 from django.utils import simplejson
 from django.utils.translation import ugettext as _
 
-from common.tests import TestHelper
 from ..models import UploadedFile
 from ..widgets import AjaxUploadException
 
@@ -32,13 +29,13 @@ class UploaderTestHelper(object):
         return UploadedFile.objects.create(**defaults)
 
 
-class Tests(UploaderTestHelper, TestHelper, TestCase):
+class Tests(UploaderTestHelper, TestCase):
 
     def test_admin_pages_load(self):
         self.assertAdminPagesLoad(self.create_uploaded_file())
 
 
-class AjaxUploadTests(UploaderTestHelper, TestHelper, TestCase):
+class AjaxUploadTests(UploaderTestHelper, TestCase):
 
     def test_upload_file_submission_saves_file_with_different_name_and_returns_json(self):
         post_data = {
@@ -68,7 +65,7 @@ class AjaxUploadTests(UploaderTestHelper, TestHelper, TestCase):
         self.assertEqual(response.status_code, 405)
 
 
-class AjaxFileInputTests(UploaderTestHelper, TestHelper, TestCase):
+class AjaxFileInputTests(UploaderTestHelper, TestCase):
     urls = 'ajax_upload.tests.urls'
 
     def test_submit_form_with_uploaded_file_path(self):
