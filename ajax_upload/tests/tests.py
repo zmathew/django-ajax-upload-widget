@@ -1,10 +1,8 @@
 import os
 
 from django.conf import settings
-from django.core.management import call_command
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from django.test.utils import override_settings
 from django.utils import simplejson
 from django.utils.translation import ugettext as _
 
@@ -124,7 +122,7 @@ class AjaxFileInputTests(UploaderTestHelper, TestHelper, TestCase):
         try:
             self.client.post(reverse('ajax-uploads-test'), post_data)
         except AjaxUploadException, err:
-            self.assertTrue(str(err).startswith(_('File path not allowed:')))
+            self.assertTrue(str(err).startswith(_('Invalid file path:')))
         else:
             self.fail()
 
