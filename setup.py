@@ -8,7 +8,7 @@ setup(
     packages=['ajax_upload', 'ajax_upload.tests'],
     version=ajax_upload.__version__,
     description=ajax_upload.__doc__,
-    long_description=open('README.md').read(),
+    long_description=open('README.rst').read(),
     classifiers=[
         'Framework :: Django',
         'Intended Audience :: Developers',

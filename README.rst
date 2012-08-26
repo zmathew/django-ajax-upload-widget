@@ -9,7 +9,7 @@ No change is required your model fields or app logic. This plugin acts transpare
 Features
 --------
 
-* Drop-in replacement for Django's built-in `ClearableFileInput` widget (no change required to your model).
+* Drop-in replacement for Django's built-in ``ClearableFileInput`` widget (no change required to your model).
 * Works in all major browsers including IE 7+.
 * Random hash string added to file names to ensure uploaded file paths are not guessable by others.
 
@@ -17,11 +17,13 @@ Features
 Usage
 -----
 
-Refer to the `example` app included in the package for a working example.
+Refer to the ``example`` app included in the package for a working example.
 
-### Server Side
+Server Side
+'''''''''''
 
-In your form, use the `AjaxClearableFileInput` on your `FileField` or `ImageField`.
+In your form, use the ``AjaxClearableFileInput`` on your ``FileField`` or ``ImageField``.
+::
 
     from django import forms
     from ajax_upload.widgets import AjaxClearableFileInput
@@ -30,7 +32,8 @@ In your form, use the `AjaxClearableFileInput` on your `FileField` or `ImageFiel
         my_image_field = forms.ImageField(widget=AjaxClearableFileInput())
 
 
-Or, if using a `ModelForm` you can just override the widget.
+Or, if using a ``ModelForm`` you can just override the widget.
+::
 
     from django import forms
     from ajax_upload.widgets import AjaxClearableFileInput
@@ -43,10 +46,12 @@ Or, if using a `ModelForm` you can just override the widget.
             }
 
 
-### Client Side
+Client Side
+'''''''''''
 
-Include the Javascript (and optionally CSS) files in your page and call the `autoDiscover` function.
+Include the Javascript (and optionally CSS) files in your page and call the ``autoDiscover`` function.
 This will search the page for all the AJAX file input fields and apply the necessary Javascript.
+::
 
     <link href="{{ STATIC_URL }}ajax_upload/css/ajax-upload-widget.css" rel="stylesheet" type="text/css"/>
     <script src="{{ STATIC_URL }}ajax_upload/js/jquery.iframe-transport.js"></script>
@@ -59,8 +64,8 @@ This will search the page for all the AJAX file input fields and apply the neces
     </script>
 
 
-You can also pass options to `autoDiscover()`:
-
+You can also pass options to ``autoDiscover()``:
+::
 
     <script>
         $(function() {
@@ -74,6 +79,7 @@ You can also pass options to `autoDiscover()`:
 
 
 OR ... you can explicitly instantiate an AjaxUploadWidget on an AJAX file input field:
+::
 
     <input id="Foo" name="foo" type="file" data-upload-url="/ajax-upload/" data-filename="" data-required=""/>
     <!-- The input field needs to be outputed by Django to contain the appropriate data attributes -->
@@ -85,7 +91,6 @@ OR ... you can explicitly instantiate an AjaxUploadWidget on an AJAX file input 
     </script>
 
 
-
 Dependencies
 ------------
 * jQuery
@@ -95,20 +100,22 @@ Dependencies
 App Installation
 ----------------
 
-1. Add `ajax_upload` to your `INSTALLED_APPS` setting.
+1. Add ``ajax_upload`` to your ``INSTALLED_APPS`` setting.
 
 1. Hook in the urls.
+::
 
-        # urls.py
-        urlpatterns += patterns('',
-            (r'^ajax-upload/', include('ajax_upload.urls')),
-        )
+    # urls.py
+    urlpatterns += patterns('',
+        (r'^ajax-upload/', include('ajax_upload.urls')),
+    )
 
 1. That's it (don't forget include the Javascript as mentioned above).
 
 
 Running the Tests
 -----------------
+::
 
     ./manage.py test ajax_upload
 
