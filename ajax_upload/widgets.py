@@ -48,8 +48,6 @@ class AjaxClearableFileInput(forms.ClearableFileInput):
                 except UploadedFile.DoesNotExist:
                     raise AjaxUploadException(u'%s %s' % (_('Invalid file path:'), relative_path))
                 else:
-                    import pdb
-                    pdb.set_trace()
                     return File(uploaded_file.file)
             else:
                 raise AjaxUploadException(u'%s %s' % (_('File path not allowed:'), file_path))
