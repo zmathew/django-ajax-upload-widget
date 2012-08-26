@@ -33,8 +33,8 @@ class AjaxClearableFileInput(forms.ClearableFileInput):
     def value_from_datadict(self, data, files, name):
         # If a file was uploaded or the clear checkbox was checked, use that.
         file = super(AjaxClearableFileInput, self).value_from_datadict(data, files, name)
-        if file is not None:  # file may be False - which indicates "clearing" of the field
-            return file
+        if file is not None:  # super class may return a file object, False, or None
+            return file  # Default behaviour
         elif name in data:  # This means a file path was specified in the POST field
             file_path = data.get(name)
             if not file_path:
