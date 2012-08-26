@@ -4,7 +4,7 @@ import ajax_upload
 
 
 setup(
-    name='django-linguo',
+    name='django-ajax-upload-widget',
     packages=['ajax_upload', 'ajax_upload.tests'],
     version=ajax_upload.__version__,
     description=ajax_upload.__doc__,
