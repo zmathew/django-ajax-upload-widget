@@ -1,5 +1,6 @@
 from django import forms
 from django.conf import settings
+from django.core.files import File
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
@@ -47,7 +48,9 @@ class AjaxClearableFileInput(forms.ClearableFileInput):
                 except UploadedFile.DoesNotExist:
                     raise AjaxUploadException(u'%s %s' % (_('Invalid file path:'), relative_path))
                 else:
-                    return uploaded_file.file
+                    import pdb
+                    pdb.set_trace()
+                    return File(uploaded_file.file)
             else:
                 raise AjaxUploadException(u'%s %s' % (_('File path not allowed:'), file_path))
         return None

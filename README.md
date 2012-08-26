@@ -3,12 +3,14 @@ Django Ajax Upload Widget
 
 Provides AJAX file upload functionality for FileFields and ImageFields with a simple widget replacement in the form.
 
+No change is required your model fields or app logic. This plugin acts transparently so your model forms can treat files as if they were uploaded by "traditional" browser file upload.
+
 
 Features
 --------
 
 * Drop-in replacement for Django's built-in `ClearableFileInput` widget (no change required to your model).
-* Works in Internet Explorer 7 and higher (not tested in IE 6, but may work).
+* Works in all major browsers including IE 7+.
 * Random hash string added to file names to ensure uploaded file paths are not guessable by others.
 
 
