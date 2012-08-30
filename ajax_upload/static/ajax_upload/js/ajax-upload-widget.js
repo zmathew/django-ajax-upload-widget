@@ -45,16 +45,16 @@
         this.$element.on('change', function(evt) {
             self.upload();
         });
-        this.$changeButton = $('<input type="button"/>')
-            .val(this.options.changeButtonText)
+        this.$changeButton = $('<button type="button" class="btn-change"></button>')
+            .text(this.options.changeButtonText)
             .on('click', function(evt) {
                 self.$element.show();
                 $(this).hide();
             });
         this.$element.after(this.$changeButton);
 
-        this.$removeButton = $('<input type="button"/>')
-            .val(this.options.removeButtonText)
+        this.$removeButton = $('<button type="button" class="btn-remove"></button>')
+            .text(this.options.removeButtonText)
             .on('click', function(evt) {
                 self.$hiddenElement.val('');
                 self.displaySelection();
