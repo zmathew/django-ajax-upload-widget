@@ -56,9 +56,12 @@
         this.$removeButton = $('<button type="button" class="btn-remove"></button>')
             .text(this.options.removeButtonText)
             .on('click', function(evt) {
+                if(self.options.onRemove) {
+                    var result = self.options.onRemove.call(self);
+                    if(result === false) return;
+                }
                 self.$hiddenElement.val('');
                 self.displaySelection();
-                if(self.options.onRemove) self.options.onRemove.call(self);
             });
         this.$changeButton.after(this.$removeButton);
 
@@ -68,7 +71,10 @@
     AjaxUploadWidget.prototype.upload = function() {
         var self = this;
         if(!this.$element.val()) return;
-        if(this.options.onUpload) this.options.onUpload.call(this);
+        if(this.options.onUpload) {
+            var result = this.options.onUpload.call(this);
+            if(result === false) return;
+        }
         this.$element.attr('name', 'file');
         $.ajax(this.$element.data('upload-url'), {
             iframe: true,
