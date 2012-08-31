@@ -123,7 +123,7 @@
             this.$previewArea.empty();
             this.$previewArea.append(this.generateFilePreview(filename));
 
-            this.$previewArea.slideDown();
+            this.$previewArea.show();
             this.$changeButton.show();
             if(this.$element.data('required') === 'True') {
                 this.$removeButton.hide();
