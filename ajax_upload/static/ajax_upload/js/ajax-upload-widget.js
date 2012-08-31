@@ -123,7 +123,7 @@
             this.$previewArea.empty();
             this.$previewArea.append(this.generateFilePreview(filename));
 
-            this.$previewArea.show();
+            this.$previewArea.slideDown();
             this.$changeButton.show();
             if(this.$element.data('required') === 'True') {
                 this.$removeButton.hide();
@@ -132,7 +132,7 @@
             }
             this.$element.hide();
         } else {
-            this.$previewArea.hide();
+            this.$previewArea.slideUp();
             this.$changeButton.hide();
             this.$removeButton.hide();
             this.$element.show();
