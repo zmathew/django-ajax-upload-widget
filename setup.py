@@ -6,6 +6,7 @@ import ajax_upload
 setup(
     name='django-ajax-upload-widget',
     packages=['ajax_upload', 'ajax_upload.tests'],
+    package_data={'ajax_upload': [ 'static/ajax_upload/css/*', 'static/ajax_upload/js/*' ]},
     version=ajax_upload.__version__,
     description=ajax_upload.__doc__,
     long_description=open('README.rst').read(),
