@@ -1,2 +1,7 @@
 include README.rst
 include LICENSE
+recursive-include ajax_upload/static *
+recursive-include ajax_upload/templates *
+include example/*.py
+recursive-include example/templates *
+recursive-include ajax_upload/tests/files *
