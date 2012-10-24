@@ -1,6 +1,7 @@
 from django import forms
 from django.conf import settings
 from django.core.files import File
+from django.core.files.storage import DefaultStorage
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
@@ -43,6 +44,8 @@ class AjaxClearableFileInput(forms.ClearableFileInput):
             elif file_path.startswith(settings.MEDIA_URL):
                 # Strip and media url to determine the path relative to media root
                 relative_path = file_path[len(settings.MEDIA_URL):]
+                if not relative_path.startswith('ajax_uploads'):
+                    return None
                 try:
                     uploaded_file = UploadedFile.objects.get(file=relative_path)
                 except UploadedFile.DoesNotExist:
