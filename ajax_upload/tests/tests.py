@@ -86,18 +86,6 @@ class AjaxFileInputTests(UploaderTestHelper, TestCase):
         self.assertEqual(parsed['uploaded_file_name'], json['path'].replace(settings.MEDIA_URL, ''))
         self.assertEqual(parsed['uploaded_image_name'], json['path'].replace(settings.MEDIA_URL, ''))
 
-    def test_submit_form_with_file_path_that_doesnt_exist_returns_error(self):
-        post_data = {
-            'my_file': '%sinvalid-file-path.txt' % settings.MEDIA_URL,
-            'my_image': '%sinvalid-file-path.png' % settings.MEDIA_URL
-        }
-        try:
-            self.client.post(reverse('ajax-uploads-test'), post_data)
-        except AjaxUploadException, err:
-            self.assertTrue(str(err).startswith(_('Invalid file path:')))
-        else:
-            self.fail()
-
     def test_submit_form_with_empty_path_clears_existing_file(self):
         post_data = {
             'my_file': '',
@@ -120,6 +108,21 @@ class AjaxFileInputTests(UploaderTestHelper, TestCase):
             self.assertTrue(str(err).startswith(_('File path not allowed:')))
         else:
             self.fail()
+
+    def test_submit_form_with_internal_file_path_ignores_it_and_retains_original_value(self):
+        # In this scenario, we're simulating the submission of an form that had
+        # an existing file specified and didn't change/ajax upload it (eg. an update form).
+        post_data = {
+            'my_file': '%ssome/INVALID-path/file.txt' % settings.MEDIA_URL,  # invalid path
+            'my_image': '%ssome/path/image.png' % settings.MEDIA_URL  # valid path
+            # We ignore BOTH valid and invalid paths to prevent the user from setting
+            # the value to a file that they did not upload
+        }
+        response = self.client.post(reverse('ajax-uploads-test'), post_data)
+        self.assertEqual(response.status_code, 200)
+        parsed = simplejson.loads(response.content)
+        self.assertEqual(parsed['uploaded_file_name'], 'some/path/file.txt')
+        self.assertEqual(parsed['uploaded_image_name'], 'some/path/image.png')
 
     def test_submit_form_normally_with_file_data_in_multipart_format(self):
         # Here we will NOT use the AJAX uploader to ensure the file field works normally.
