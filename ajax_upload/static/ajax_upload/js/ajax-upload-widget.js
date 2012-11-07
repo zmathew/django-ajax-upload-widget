@@ -144,7 +144,7 @@
         var prettyFilename = this.prettifyFilename(filename);
         var output = '<a href="'+filename+'" target="_blank">'+prettyFilename+'';
         $.each(['jpg', 'jpeg', 'png', 'gif'], function(i, ext) {
-            if(filename.slice(-3) == ext) {
+            if(filename.toLowerCase().slice(-ext.length) == ext) {
                 output += '<img src="'+filename+'"/>';
                 return false;
             }
