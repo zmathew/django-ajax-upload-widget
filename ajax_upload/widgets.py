@@ -49,7 +49,8 @@ class AjaxClearableFileInput(forms.ClearableFileInput):
                 try:
                     uploaded_file = UploadedFile.objects.get(file=relative_path)
                 except UploadedFile.DoesNotExist:
-                    raise AjaxUploadException(u'%s %s' % (_('Invalid file path:'), relative_path))
+                    # Leave the file unchanged (it could be the original file path)
+                    return None
                 else:
                     return File(uploaded_file.file)
             else:
