@@ -5,6 +5,7 @@
 
     var AjaxUploadWidget = global.AjaxUploadWidget = function(element, options) {
         this.options = {
+            hideInput: false,
             changeButtonText: 'Change',
             removeButtonText: 'Remove',
             previewAreaClass: 'ajax-upload-preview-area',
@@ -48,8 +49,14 @@
         this.$changeButton = $('<button type="button" class="btn-change"></button>')
             .text(this.options.changeButtonText)
             .on('click', function(evt) {
-                self.$element.show();
-                $(this).hide();
+                if(self.options.hideInput){
+                    self.$element.hide();
+                    self.$element.trigger('click');
+                }
+                else{
+                    self.$element.show();
+                    $(this).hide();
+                }
             });
         this.$element.after(this.$changeButton);
 
@@ -133,9 +140,15 @@
             this.$element.hide();
         } else {
             this.$previewArea.slideUp();
-            this.$changeButton.hide();
             this.$removeButton.hide();
-            this.$element.show();
+            if(this.options.hideInput){
+                this.$changeButton.show();
+                this.$element.hide();
+            }
+            else{
+                this.$changeButton.hide();
+                this.$element.show();
+            }
         }
     };
 
