@@ -5,6 +5,8 @@ from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
+import urllib2
+
 from .models import UploadedFile
 
 
@@ -43,6 +45,7 @@ class AjaxClearableFileInput(forms.ClearableFileInput):
             elif file_path.startswith(settings.MEDIA_URL):
                 # Strip and media url to determine the path relative to media root
                 relative_path = file_path[len(settings.MEDIA_URL):]
+                relative_path = urllib2.unquote(relative_path.encode('utf8')).decode('utf8')
                 try:
                     uploaded_file = UploadedFile.objects.get(file=relative_path)
                 except UploadedFile.DoesNotExist:
