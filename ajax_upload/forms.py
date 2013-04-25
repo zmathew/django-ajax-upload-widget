@@ -5,6 +5,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from .models import UploadedFile
+from . import settings as upload_settings
 
 
 class UploadedFileForm(forms.ModelForm):
@@ -23,7 +24,7 @@ class UploadedFileForm(forms.ModelForm):
         # Construct the new name as <unique-hex>-<original>.<ext>
         data.name = u'%s-%s' % (uuid.uuid4().hex, data.name)
 
-        max_upload_size = getattr(settings, 'AJAX_UPLOAD_MAX_FILESIZE', 0)
+        max_upload_size = getattr(settings, 'AJAX_UPLOAD_MAX_FILESIZE', upload_settings.DEFAULT_MAX_FILESIZE)
         if 0 < max_upload_size < data.size:
             raise forms.ValidationError(self.ERRORS['max_filesize'])
 

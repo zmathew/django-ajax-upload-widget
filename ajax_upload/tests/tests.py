@@ -31,6 +31,7 @@ class UploaderTestHelper(object):
         return UploadedFile.objects.create(**defaults)
 
 
+@override_settings(AJAX_UPLOAD_MAX_FILESIZE=0)
 class AjaxUploadTests(UploaderTestHelper, TestCase):
 
     def test_upload_file_submission_saves_file_with_different_name_and_returns_json(self):
@@ -84,6 +85,7 @@ class AjaxUploadTests(UploaderTestHelper, TestCase):
             self.assertEqual(json['errors']['file'][0], _('The file is bigger than the maximum size allowed.'))
 
 
+@override_settings(AJAX_UPLOAD_MAX_FILESIZE=0)
 class AjaxFileInputTests(UploaderTestHelper, TestCase):
     urls = 'ajax_upload.tests.urls'
 
