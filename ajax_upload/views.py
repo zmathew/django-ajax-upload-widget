@@ -3,7 +3,7 @@ from django.utils import simplejson
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from .forms import UploadedFileForm
+from ajax_upload.forms import UploadedFileForm
 
 
 @csrf_exempt

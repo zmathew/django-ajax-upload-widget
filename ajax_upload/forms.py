@@ -2,7 +2,7 @@ import uuid
 
 from django import forms
 
-from .models import UploadedFile
+from ajax_upload.models import UploadedFile
 
 
 class UploadedFileForm(forms.ModelForm):

@@ -7,7 +7,7 @@ from django.utils.translation import ugettext as _
 
 import urllib2
 
-from .models import UploadedFile
+from ajax_upload.models import UploadedFile
 
 
 class AjaxUploadException(Exception):

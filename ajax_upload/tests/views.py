@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.utils import simplejson
 
-from ..tests.forms import TestForm
+from ajax_upload.tests.forms import TestForm
 
 
 def test_view(request):

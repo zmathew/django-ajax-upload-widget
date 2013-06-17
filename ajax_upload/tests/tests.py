@@ -8,8 +8,8 @@ from django.test.utils import override_settings
 from django.utils import simplejson
 from django.utils.translation import ugettext as _
 
-from ..models import UploadedFile
-from ..widgets import AjaxUploadException
+from ajax_upload.models import UploadedFile
+from ajax_upload.widgets import AjaxUploadException
 
 
 TEST_FILEPATH = os.path.dirname(__file__) + '/files/test.png'

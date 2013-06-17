@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 
-from ..urls import urlpatterns
+from ajax_upload.urls import urlpatterns
 
 
 urlpatterns += patterns('ajax_upload.tests.views',
