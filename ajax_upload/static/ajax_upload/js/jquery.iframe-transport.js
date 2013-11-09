@@ -220,4 +220,4 @@
     }
   });
 
-})(jQuery);
+})(jQuery || django.jQuery); //  small trick for django admin

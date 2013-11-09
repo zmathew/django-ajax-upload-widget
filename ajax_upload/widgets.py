@@ -15,6 +15,13 @@ class AjaxUploadException(Exception):
 
 
 class AjaxClearableFileInput(forms.ClearableFileInput):
+
+    class Media:
+        js = ("ajax_upload/js/jquery.iframe-transport.js",
+              "ajax_upload/js/ajax-upload-widget.js",
+              "ajax_upload/js/ajax-upload-autodiscover.js",)
+        css = {'all': ('ajax_upload/css/ajax-upload-widget.css',)}
+
     template_with_clear = ''  # We don't need this
     template_with_initial = '%(input)s'
 
