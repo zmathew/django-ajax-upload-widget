@@ -1,0 +1,11 @@
+{{ input }}
+
+<script type="text/javascript">
+    (jQuery || django.jQuery)(function($){
+        new AjaxUploadWidget($('#{{ id }}'), {
+        {% for option, value in options.items %}
+            {{ option }}: {{ value|safe }}{% if not forloop.last %},{% endif %}
+        {% endfor %}
+        });
+    });
+</script>

@@ -49,46 +49,33 @@ Or, if using a ``ModelForm`` you can just override the widget.
 Client Side
 '''''''''''
 
-Include the Javascript (and optionally CSS) files in your page and call the ``autoDiscover`` function.
-This will search the page for all the AJAX file input fields and apply the necessary Javascript.
+Just include `{{ form.media }}` line in your template for loading all js and css stuff.
+
+
+JavaScript options
+''''''''''''''''''
+You can also pass some custom options to JavaScript `AjaxUploadWidget` object. For that you may use `uploader_ops`
+optional param:
 ::
 
-    <link href="{{ STATIC_URL }}ajax_upload/css/ajax-upload-widget.css" rel="stylesheet" type="text/css"/>
-    <script src="{{ STATIC_URL }}ajax_upload/js/jquery.iframe-transport.js"></script>
-    <script src="{{ STATIC_URL }}ajax_upload/js/ajax-upload-widget.js"></script>
-
-    <script>
-        $(function() {
-            AjaxUploadWidget.autoDiscover();
-        });
-    </script>
+    widgets = {
+        'my_image_field': AjaxClearableFileInput(uploader_ops={
+            'changeButtonText': "'Click to change'",  # double quotes is required here
+            'onError': 'function(data) { alert('Error!'); }'
+        })
+    }
 
 
-You can also pass options to ``autoDiscover()``:
+Using in django admin
+'''''''''''''''''''''
+An app is completely ready for using in django admin page. It's easy. See an example:
 ::
 
-    <script>
-        $(function() {
-            AjaxUploadWidget.autoDiscover({
-                changeButtonText: 'Click to change',
-                onError: function(data) { alert('Error!'); }
-                // see source for full list of options
-            });
-        });
-    </script>
 
-
-OR ... you can explicitly instantiate an AjaxUploadWidget on an AJAX file input field:
-::
-
-    <input id="Foo" name="foo" type="file" data-upload-url="/ajax-upload/" data-filename="" data-required=""/>
-    <!-- The input field needs to be outputed by Django to contain the appropriate data attributes -->
-
-    <script>
-        new AjaxUploadWidget($('#Foo'), {
-            // options
-        });
-    </script>
+    class ProductAdmin(admin.ModelAdmin):
+        formfield_overrides = {
+            models.ImageField: {'widget': AjaxClearableFileInput }
+        }
 
 
 Dependencies
@@ -110,7 +97,7 @@ App Installation
         (r'^ajax-upload/', include('ajax_upload.urls')),
     )
 
-1. That's it (don't forget include the Javascript as mentioned above).
+1. That's it (don't forget include the jQuery as mentioned above).
 
 
 Running the Tests
