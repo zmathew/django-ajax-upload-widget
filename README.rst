@@ -49,12 +49,12 @@ Or, if using a ``ModelForm`` you can just override the widget.
 Client Side
 '''''''''''
 
-Just include `{{ form.media }}` line in your template for loading all js and css stuff.
+Just include ``{{ form.media }}`` line in your template for loading all js and css stuff.
 
 
 JavaScript options
 ''''''''''''''''''
-You can also pass some custom options to JavaScript `AjaxUploadWidget` object. For that you may use `uploader_ops`
+You can also pass some custom options to JavaScript ``AjaxUploadWidget`` object. For that you may use ``uploader_ops``
 optional param:
 ::
 
