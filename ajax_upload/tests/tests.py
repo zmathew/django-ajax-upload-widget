@@ -1,4 +1,5 @@
 import os
+import unittest
 
 from django.conf import settings
 from django.core.management import call_command
@@ -97,6 +98,7 @@ class AjaxFileInputTests(UploaderTestHelper, TestCase):
         self.assertEqual(parsed['uploaded_file_name'], 'False')
         self.assertEqual(parsed['uploaded_image_name'], 'False')
 
+    @unittest.skipUnless(settings.MEDIA_URL, 'Requires non-empty MEDIAL_URL')
     def test_submit_form_with_external_file_path_returns_error(self):
         post_data = {
             'my_file': 'http://www.google.com/invalid.txt',
