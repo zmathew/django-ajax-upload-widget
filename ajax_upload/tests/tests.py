@@ -1,12 +1,10 @@
+import json
 import os
 import unittest
 
 from django.conf import settings
-from django.core.management import call_command
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from django.test.utils import override_settings
-from django.utils import simplejson
 from django.utils.translation import ugettext as _
 
 from ajax_upload.models import UploadedFile
@@ -34,16 +32,16 @@ class UploaderTestHelper(object):
 
 class AjaxUploadTests(UploaderTestHelper, TestCase):
 
-    def test_upload_file_submission_saves_file_with_different_name_and_returns_json(self):
+    def test_upload_file_submission_saves_file_with_different_name_and_returns_json_data(self):
         post_data = {
             'file': open(TEST_FILEPATH)
         }
         response = self.client.post(reverse('ajax-upload'), post_data)
         self.assertEqual(response.status_code, 200)
-        json = simplejson.loads(response.content)
+        json_data = json.loads(response.content)
         uploaded_file = UploadedFile.objects.get()
         self.assertTrue(os.path.exists(uploaded_file.file.path))
-        self.assertEqual(json['path'], uploaded_file.file.url)
+        self.assertEqual(json_data['path'], uploaded_file.file.url)
         # This is a not-so-good test to verify that the filename name is modified
         self.assertTrue(len(os.path.basename(uploaded_file.file.name)) > 16)
 
@@ -53,9 +51,9 @@ class AjaxUploadTests(UploaderTestHelper, TestCase):
         }
         response = self.client.post(reverse('ajax-upload'), post_data)
         self.assertEqual(response.status_code, 400)
-        json = simplejson.loads(response.content)
-        self.assertTrue('errors' in json)
-        self.assertEqual(json['errors']['file'][0], _('This field is required.'))
+        json_data = json.loads(response.content)
+        self.assertTrue('errors' in json_data)
+        self.assertEqual(json_data['errors']['file'][0], _('This field is required.'))
 
     def test_upload_file_get_request_returns_405(self):
         response = self.client.get(reverse('ajax-upload'))
@@ -72,20 +70,20 @@ class AjaxFileInputTests(UploaderTestHelper, TestCase):
         }
         response = self.client.post(reverse('ajax-upload'), post_data)
         self.assertEqual(response.status_code, 200)
-        json = simplejson.loads(response.content)
+        json_data = json.loads(response.content)
         uploaded_file = UploadedFile.objects.get()
         self.assertTrue(os.path.exists(uploaded_file.file.path))
 
         # Now submit the original form with the path of the uploaded file
         post_data = {
-            'my_file': json['path'],
-            'my_image': json['path']  # We're testing both AjaxFileField and AjaxImageField
+            'my_file': json_data['path'],
+            'my_image': json_data['path']  # We're testing both AjaxFileField and AjaxImageField
         }
         response = self.client.post(reverse('ajax-uploads-test'), post_data)
         self.assertEqual(response.status_code, 200)
-        parsed = simplejson.loads(response.content)
-        self.assertEqual(parsed['uploaded_file_name'], json['path'].replace(settings.MEDIA_URL, ''))
-        self.assertEqual(parsed['uploaded_image_name'], json['path'].replace(settings.MEDIA_URL, ''))
+        parsed = json.loads(response.content)
+        self.assertEqual(parsed['uploaded_file_name'], json_data['path'].replace(settings.MEDIA_URL, ''))
+        self.assertEqual(parsed['uploaded_image_name'], json_data['path'].replace(settings.MEDIA_URL, ''))
 
     def test_submit_form_with_empty_path_clears_existing_file(self):
         post_data = {
@@ -94,7 +92,7 @@ class AjaxFileInputTests(UploaderTestHelper, TestCase):
         }
         response = self.client.post(reverse('ajax-uploads-test'), post_data)
         self.assertEqual(response.status_code, 200)
-        parsed = simplejson.loads(response.content)
+        parsed = json.loads(response.content)
         self.assertEqual(parsed['uploaded_file_name'], 'False')
         self.assertEqual(parsed['uploaded_image_name'], 'False')
 
@@ -122,7 +120,7 @@ class AjaxFileInputTests(UploaderTestHelper, TestCase):
         }
         response = self.client.post(reverse('ajax-uploads-test'), post_data)
         self.assertEqual(response.status_code, 200)
-        parsed = simplejson.loads(response.content)
+        parsed = json.loads(response.content)
         self.assertEqual(parsed['uploaded_file_name'], 'some/path/file.txt')
         self.assertEqual(parsed['uploaded_image_name'], 'some/path/image.png')
 
@@ -134,7 +132,7 @@ class AjaxFileInputTests(UploaderTestHelper, TestCase):
         }
         response = self.client.post(reverse('ajax-uploads-test'), post_data)
         self.assertEqual(response.status_code, 200)
-        parsed = simplejson.loads(response.content)
+        parsed = json.loads(response.content)
         self.assertTrue('errors' not in parsed)
         self.assertTrue('uploaded_file_name' in parsed)
         self.assertTrue('uploaded_image_name' in parsed)
