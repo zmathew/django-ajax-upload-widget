@@ -16,10 +16,10 @@ def test_view(request):
             'uploaded_image_name': str(form.cleaned_data['my_image'])
         }
         return HttpResponse(
-            json.dumps(data), mimetype='application/json'
+            json.dumps(data), content_type='application/json'
         )
     else:
         return HttpResponseBadRequest(
             json.dumps({'errors': form.errors}),
-            mimetype='application/json'
+            content_type='application/json'
         )
