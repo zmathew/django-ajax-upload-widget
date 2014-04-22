@@ -1,4 +1,5 @@
 import uuid
+import os
 
 from django import forms
 from django.conf import settings
@@ -22,7 +23,8 @@ class UploadedFileForm(forms.ModelForm):
         data = self.cleaned_data['file']
         # Change the name of the file to something unguessable
         # Construct the new name as <unique-hex>-<original>.<ext>
-        data.name = u'%s-%s' % (uuid.uuid4().hex, data.name)
+        original_name, ext = os.path.splitext(data.name)
+        data.name = u'%s-%s%s' % (uuid.uuid4().hex, original_name[:32], ext[:4])
 
         max_upload_size = getattr(settings, 'AJAX_UPLOAD_MAX_FILESIZE', upload_settings.DEFAULT_MAX_FILESIZE)
         if 0 < max_upload_size < data.size:
