@@ -5,7 +5,7 @@ from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
-from .models import UploadedFile
+from ajax_upload.models import UploadedFile
 from . import settings as upload_settings
 
 

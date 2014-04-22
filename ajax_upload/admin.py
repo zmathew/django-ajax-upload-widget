@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import UploadedFile
+from ajax_upload.models import UploadedFile
 
 
 class UploadedFileAdmin(admin.ModelAdmin):

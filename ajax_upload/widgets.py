@@ -7,7 +7,7 @@ from django.utils.translation import ugettext as _
 
 import urllib2
 
-from .models import UploadedFile
+from ajax_upload.models import UploadedFile
 
 
 class AjaxUploadException(Exception):
@@ -43,7 +43,7 @@ class AjaxClearableFileInput(forms.ClearableFileInput):
             if not file_path:
                 return False  # False means clear the existing file
             elif file_path.startswith(settings.MEDIA_URL):
-                # Strip and media url to determine the path relative to media root
+                # Strip and media url to determine the path relative to media url base
                 relative_path = file_path[len(settings.MEDIA_URL):]
                 relative_path = urllib2.unquote(relative_path.encode('utf8')).decode('utf8')
                 try:

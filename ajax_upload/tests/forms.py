@@ -1,6 +1,6 @@
 from django import forms
 
-from ..widgets import AjaxClearableFileInput
+from ajax_upload.widgets import AjaxClearableFileInput
 
 
 class TestForm(forms.Form):

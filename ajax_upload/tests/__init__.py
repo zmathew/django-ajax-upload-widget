@@ -1,1 +1,1 @@
-from .tests import *
+from ajax_upload.tests.tests import *

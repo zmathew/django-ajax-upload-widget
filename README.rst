@@ -93,7 +93,7 @@ OR ... you can explicitly instantiate an AjaxUploadWidget on an AJAX file input 
 
 Dependencies
 ------------
-* jQuery
+* jQuery 1.7+
 * jQuery Iframe Transport plugin (included in this package)
 
 
