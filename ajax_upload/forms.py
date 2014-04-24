@@ -11,6 +11,9 @@ from . import settings as upload_settings
 
 class UploadedFileForm(forms.ModelForm):
 
+    if getattr(settings, 'AJAX_UPLOAD_USE_IMAGE_FIELD', False):
+        file = forms.ImageField()
+
     ERRORS = {
         'max_filesize': _('The file is bigger than the maximum size allowed.'),
     }
