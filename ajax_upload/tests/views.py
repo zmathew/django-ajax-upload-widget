@@ -1,8 +1,6 @@
+import json
+
 from django.http import HttpResponse, HttpResponseBadRequest
-try:
-    import json
-except ImportError:
-    from django.utils import simplejson as json
 
 from ajax_upload.tests.forms import TestForm
 
@@ -18,10 +16,10 @@ def test_view(request):
             'uploaded_image_name': str(form.cleaned_data['my_image'])
         }
         return HttpResponse(
-            json.dumps(data), content_type="application/json; charset=utf-8"
+            json.dumps(data), content_type='application/json'
         )
     else:
         return HttpResponseBadRequest(
             json.dumps({'errors': form.errors}),
-            content_type="application/json; charset=utf-8"
+            content_type='application/json'
         )

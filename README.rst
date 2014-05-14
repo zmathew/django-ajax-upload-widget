@@ -80,7 +80,7 @@ An app is completely ready for using in django admin page. It's easy. See an exa
 
 Dependencies
 ------------
-* jQuery
+* jQuery 1.7+
 * jQuery Iframe Transport plugin (included in this package)
 
 
@@ -98,6 +98,13 @@ App Installation
     )
 
 1. That's it (don't forget include the jQuery as mentioned above).
+
+
+Settings
+--------
+
+``AJAX_UPLOAD_MAX_FILESIZE`` - Maximum allowed file size in bytes (default: 0).
+Setting this greater than 0 will enable validation of uploaded file size.
 
 
 Running the Tests

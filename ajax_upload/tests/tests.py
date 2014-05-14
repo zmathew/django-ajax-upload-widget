@@ -1,14 +1,10 @@
+import json
 import os
-
+import unittest
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-try:
-    import json
-except ImportError:
-    from django.utils import simplejson as json
-
 from django.utils.translation import ugettext as _
 
 from ajax_upload.models import UploadedFile
@@ -34,9 +30,10 @@ class UploaderTestHelper(object):
         return UploadedFile.objects.create(**defaults)
 
 
+@override_settings(AJAX_UPLOAD_MAX_FILESIZE=0)
 class AjaxUploadTests(UploaderTestHelper, TestCase):
 
-    def test_upload_file_submission_saves_file_with_different_name_and_returns_json(self):
+    def test_upload_file_submission_saves_file_with_different_name_and_returns_json_data(self):
         post_data = {
             'file': open(TEST_FILEPATH)
         }
@@ -63,7 +60,31 @@ class AjaxUploadTests(UploaderTestHelper, TestCase):
         response = self.client.get(reverse('ajax-upload'))
         self.assertEqual(response.status_code, 405)
 
+    def test_upload_less_than_max_filesize_saves(self):
+        filesize = os.stat(TEST_FILEPATH).st_size
+        post_data = {
+            'file': open(TEST_FILEPATH),
+        }
 
+        with override_settings(AJAX_UPLOAD_MAX_FILESIZE=filesize):
+            response = self.client.post(reverse('ajax-upload'), post_data)
+            self.assertEqual(response.status_code, 200)
+
+    def test_upload_greater_than_max_filesize_returns_error(self):
+        filesize = os.stat(TEST_FILEPATH).st_size
+        post_data = {
+            'file': open(TEST_FILEPATH),
+        }
+
+        with override_settings(AJAX_UPLOAD_MAX_FILESIZE=filesize - 1):
+            response = self.client.post(reverse('ajax-upload'), post_data)
+            self.assertEqual(response.status_code, 400)
+            json = simplejson.loads(response.content)
+            self.assertTrue('errors' in json)
+            self.assertEqual(json['errors']['file'][0], _('The file is bigger than the maximum size allowed.'))
+
+
+@override_settings(AJAX_UPLOAD_MAX_FILESIZE=0)
 class AjaxFileInputTests(UploaderTestHelper, TestCase):
     urls = 'ajax_upload.tests.urls'
 
@@ -100,6 +121,7 @@ class AjaxFileInputTests(UploaderTestHelper, TestCase):
         self.assertEqual(parsed['uploaded_file_name'], 'False')
         self.assertEqual(parsed['uploaded_image_name'], 'False')
 
+    @unittest.skipUnless(settings.MEDIA_URL, 'Requires non-empty MEDIAL_URL')
     def test_submit_form_with_external_file_path_returns_error(self):
         post_data = {
             'my_file': 'http://www.google.com/invalid.txt',
