@@ -1,12 +1,12 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from ajax_upload.settings import FILE_FIELD_MAX_LENGTH
+from ajax_upload.settings import FILE_FIELD_MAX_LENGTH, UPLOAD_TO_DIRECTORY
 
 
 class UploadedFile(models.Model):
     creation_date = models.DateTimeField(_('creation date'), auto_now_add=True)
-    file = models.FileField(_('file'), max_length=FILE_FIELD_MAX_LENGTH, upload_to='ajax_uploads/')
+    file = models.FileField(_('file'), max_length=FILE_FIELD_MAX_LENGTH, upload_to=UPLOAD_TO_DIRECTORY)
 
     class Meta:
         ordering = ('id',)
