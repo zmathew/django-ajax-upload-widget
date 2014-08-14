@@ -8,6 +8,7 @@ from django.utils.translation import ugettext as _
 import urllib2
 
 from ajax_upload.models import UploadedFile
+from ajax_upload.settings import FILE_FIELD_ACCEPT_TYPES
 
 
 class AjaxUploadException(Exception):
@@ -30,6 +31,10 @@ class AjaxClearableFileInput(forms.ClearableFileInput):
             'data-required': self.is_required or '',
             'data-upload-url': reverse('ajax-upload')
         })
+        if FILE_FIELD_ACCEPT_TYPES is not None:
+            attrs.update({
+                'accept': FILE_FIELD_ACCEPT_TYPES
+            })
         output = super(AjaxClearableFileInput, self).render(name, value, attrs)
         return mark_safe(output)
 
