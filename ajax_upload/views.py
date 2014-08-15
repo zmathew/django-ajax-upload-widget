@@ -11,9 +11,8 @@ from ajax_upload.settings import UPLOAD_PERMISSION_CHECKER as permission_checker
 @require_POST
 def upload(request):
     if callable(permission_checker):
-        errors = permission_checker(request)
-        if errors is not None:
-            return HttpResponseBadRequest(json.dumps(errors))
+        if not permission_checker(request):
+            return HttpResponseBadRequest(json.dumps({'errors': 'Upload not permitted'}))
     form = UploadedFileForm(data=request.POST, files=request.FILES)
     if form.is_valid():
         uploaded_file = form.save()
