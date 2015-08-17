@@ -79,9 +79,9 @@ class AjaxUploadTests(UploaderTestHelper, TestCase):
         with override_settings(AJAX_UPLOAD_MAX_FILESIZE=filesize - 1):
             response = self.client.post(reverse('ajax-upload'), post_data)
             self.assertEqual(response.status_code, 400)
-            json = simplejson.loads(response.content)
-            self.assertTrue('errors' in json)
-            self.assertEqual(json['errors']['file'][0], _('The file is bigger than the maximum size allowed.'))
+            json_data = json.loads(response.content)
+            self.assertTrue('errors' in json_data)
+            self.assertEqual(json_data['errors']['file'][0], _('The file is bigger than the maximum size allowed.'))
 
 
 @override_settings(AJAX_UPLOAD_MAX_FILESIZE=0)
