@@ -1,0 +1,19 @@
+{{ input }}
+
+<script type="text/javascript">
+
+    (jQuery || django.jQuery)(function($){
+        var uploader_input = $('#{{ id }}'),
+            options = {
+                {% for option, value in options.items %}
+                    {{ option }}: {{ value|safe }}{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            };
+        if(uploader_input.attr('name').lastIndexOf('__prefix__') == -1){
+            uploader_input.removeClass('ajax-upload-mark');
+            new AjaxUploadWidget(uploader_input, options);
+        } else {  // small trick for making it work inside django admin inline
+            uploader_input.data('uploader_options', options);
+        }
+    });
+</script>

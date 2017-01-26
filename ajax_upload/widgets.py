@@ -1,11 +1,13 @@
+import urllib2
+
+
 from django import forms
 from django.conf import settings
 from django.core.files import File
 from django.core.urlresolvers import reverse
+from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
-
-import urllib2
 
 from ajax_upload.models import UploadedFile
 
@@ -15,8 +17,19 @@ class AjaxUploadException(Exception):
 
 
 class AjaxClearableFileInput(forms.ClearableFileInput):
+
+    class Media:
+        js = ("ajax_upload/js/jquery.iframe-transport.js",
+              "ajax_upload/js/ajax-upload-widget.js",)
+        css = {'all': ('ajax_upload/css/ajax-upload-widget.css',)}
+
     template_with_clear = ''  # We don't need this
     template_with_initial = '%(input)s'
+
+    def __init__(self, attrs=None, uploader_ops=None, template='ajax_upload_widget.html'):
+        super(AjaxClearableFileInput, self).__init__(attrs=attrs)
+        self.uploader_ops = uploader_ops or {}
+        self.template = template
 
     def render(self, name, value, attrs=None):
         attrs = attrs or {}
@@ -24,14 +37,19 @@ class AjaxClearableFileInput(forms.ClearableFileInput):
             filename = u'%s%s' % (settings.MEDIA_URL, value)
         else:
             filename = ''
+
         attrs.update({
-            'class': attrs.get('class', '') + 'ajax-upload',
+            'class': attrs.get('class', '') + ' ajax-upload ajax-upload-mark',
             'data-filename': filename,  # This is so the javascript can get the actual value
             'data-required': self.is_required or '',
             'data-upload-url': reverse('ajax-upload')
         })
-        output = super(AjaxClearableFileInput, self).render(name, value, attrs)
-        return mark_safe(output)
+
+        return mark_safe(render_to_string(self.template, {
+            'input': super(AjaxClearableFileInput, self).render(name, value, attrs),
+            'id': self.build_attrs(attrs, type=self.input_type, name=name)['id'],
+            'options': self.uploader_ops
+        }))
 
     def value_from_datadict(self, data, files, name):
         # If a file was uploaded or the clear checkbox was checked, use that.

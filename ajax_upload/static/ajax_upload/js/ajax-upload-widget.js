@@ -1,6 +1,6 @@
 (function() {
     var global = this;
-    var $ = global.$;
+    var $ = global.$ || global.django.jQuery;  //  small trick for django admin
     var console = global.console || {log: function() {}};
 
     var AjaxUploadWidget = global.AjaxUploadWidget = function(element, options) {
