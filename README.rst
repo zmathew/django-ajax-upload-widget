@@ -1,3 +1,5 @@
+**This project is no longer maintained.**
+
 Django Ajax Upload Widget
 =========================
 
