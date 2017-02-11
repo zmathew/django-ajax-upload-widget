@@ -41,7 +41,7 @@ class AjaxClearableFileInput(forms.ClearableFileInput):
         elif name in data:  # This means a file path was specified in the POST field
             file_path = data.get(name)
             if not file_path:
-                return False  # False means clear the existing file
+                return file  # Return whatever the super class returned
             elif file_path.startswith(settings.MEDIA_URL):
                 # Strip and media url to determine the path relative to media url base
                 relative_path = file_path[len(settings.MEDIA_URL):]
