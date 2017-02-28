@@ -7,6 +7,9 @@
         this.options = {
             changeButtonText: 'Change',
             removeButtonText: 'Remove',
+            changeButtonTemplate: '<button type="button" class="btn-change"></button>',
+            removeButtonTemplate: '<button type="button" class="btn-remove"></button>',
+            buttonContainerTemplate: '<div class="ajax-upload-button-container"></div>',
             previewAreaClass: 'ajax-upload-preview-area',
             previewFilenameLength: 30,
             onUpload: null, // right before uploading to the server
@@ -45,16 +48,21 @@
         this.$element.on('change', function(evt) {
             self.upload();
         });
-        this.$changeButton = $('<button type="button" class="btn-change"></button>')
-            .text(this.options.changeButtonText)
+
+        this.$buttonContainer = $(this.options.buttonContainerTemplate);
+        this.$element.after(this.$buttonContainer);
+
+        this.$changeButton = $(this.options.changeButtonTemplate)
             .on('click', function(evt) {
                 self.$element.show();
                 $(this).hide();
             });
-        this.$element.after(this.$changeButton);
+        if (this.options.changeButtonText) {
+            this.$changeButton.text(this.options.changeButtonText);
+        }
+        this.$buttonContainer.append(this.$changeButton);
 
-        this.$removeButton = $('<button type="button" class="btn-remove"></button>')
-            .text(this.options.removeButtonText)
+        this.$removeButton = $(this.options.removeButtonTemplate)
             .on('click', function(evt) {
                 if(self.options.onRemove) {
                     var result = self.options.onRemove.call(self);
@@ -63,7 +71,10 @@
                 self.$hiddenElement.val('');
                 self.displaySelection();
             });
-        this.$changeButton.after(this.$removeButton);
+        if (this.options.removeButtonText) {
+            this.$removeButton.text(this.options.removeButtonText);
+        }
+        this.$buttonContainer.append(this.$removeButton);
 
         this.displaySelection();
     };
