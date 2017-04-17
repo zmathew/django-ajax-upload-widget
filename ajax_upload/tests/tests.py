@@ -59,6 +59,29 @@ class AjaxUploadTests(UploaderTestHelper, TestCase):
         response = self.client.get(reverse('ajax-upload'))
         self.assertEqual(response.status_code, 405)
 
+    def test_upload_less_than_max_filesize_saves(self):
+        filesize = os.stat(TEST_FILEPATH).st_size
+        post_data = {
+            'file': open(TEST_FILEPATH),
+        }
+
+        with override_settings(AJAX_UPLOAD_MAX_FILESIZE=filesize):
+            response = self.client.post(reverse('ajax-upload'), post_data)
+            self.assertEqual(response.status_code, 200)
+
+    def test_upload_greater_than_max_filesize_returns_error(self):
+        filesize = os.stat(TEST_FILEPATH).st_size
+        post_data = {
+            'file': open(TEST_FILEPATH),
+        }
+
+        with override_settings(AJAX_UPLOAD_MAX_FILESIZE=filesize - 1):
+            response = self.client.post(reverse('ajax-upload'), post_data)
+            self.assertEqual(response.status_code, 400)
+            json = simplejson.loads(response.content)
+            self.assertTrue('errors' in json)
+            self.assertEqual(json['errors']['file'][0], _('The file is bigger than the maximum size allowed.'))
+
 
 class AjaxFileInputTests(UploaderTestHelper, TestCase):
     urls = 'ajax_upload.tests.urls'

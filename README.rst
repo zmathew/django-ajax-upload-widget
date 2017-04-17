@@ -115,6 +115,13 @@ App Installation
 1. That's it (don't forget include the Javascript as mentioned above).
 
 
+Settings
+--------
+
+``AJAX_UPLOAD_MAX_FILESIZE`` - Maximum allowed file size in bytes (default: 0).
+Setting this greater than 0 will enable validation of uploaded file size.
+
+
 Running the Tests
 -----------------
 ::
