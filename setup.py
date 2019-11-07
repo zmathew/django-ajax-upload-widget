@@ -16,6 +16,11 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Framework :: Django',
+        'Framework :: Django :: 2.1',
+        'Framework :: Django :: 2.2',
         'Topic :: Software Development'
     ],
     author='Zach Mathew',

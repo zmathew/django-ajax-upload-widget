@@ -13,8 +13,8 @@ class UploadedFile(models.Model):
         verbose_name = _('uploaded file')
         verbose_name_plural = _('uploaded files')
 
-    def __unicode__(self):
-        return unicode(self.file)
+    def __str__(self):
+        return f"{self.file}"
 
     def delete(self, *args, **kwargs):
         super(UploadedFile, self).delete(*args, **kwargs)

@@ -4,7 +4,7 @@ from ajax_upload.models import UploadedFile
 
 
 class UploadedFileAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__',)
+    list_display = ('__str__',)
     date_hierarchy = 'creation_date'
     search_fields = ('file',)
 
