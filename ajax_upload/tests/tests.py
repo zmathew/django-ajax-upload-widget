@@ -104,7 +104,7 @@ class AjaxFileInputTests(UploaderTestHelper, TestCase):
         }
         try:
             self.client.post(reverse('ajax-uploads-test'), post_data)
-        except AjaxUploadException, err:
+        except AjaxUploadException as err:
             self.assertTrue(str(err).startswith(_('File path not allowed:')))
         else:
             self.fail()

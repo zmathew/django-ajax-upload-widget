@@ -45,7 +45,7 @@
         this.$element.on('change', function(evt) {
             self.upload();
         });
-        this.$changeButton = $('<button type="button" class="btn-change"></button>')
+        this.$changeButton = $('<button type="button" class="btn btn-change"></button>')
             .text(this.options.changeButtonText)
             .on('click', function(evt) {
                 self.$element.show();
@@ -53,7 +53,7 @@
             });
         this.$element.after(this.$changeButton);
 
-        this.$removeButton = $('<button type="button" class="btn-remove"></button>')
+        this.$removeButton = $('<button type="button" class="btn btn-remove"></button>')
             .text(this.options.removeButtonText)
             .on('click', function(evt) {
                 if(self.options.onRemove) {
